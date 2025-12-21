@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TinyKit (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "TinyKit (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
