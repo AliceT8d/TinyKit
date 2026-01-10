@@ -7,9 +7,11 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.AccessControl;
 using TinyKit.Pages;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -24,35 +26,14 @@ public sealed partial class MainWindow : Window
         InitializeComponent();
 
         ExtendsContentIntoTitleBar = true;
-        WinUIEx.WindowManager.Get(this).Width = 1230;
+        WinUIEx.WindowManager.Get(this).Width = 1450;
         WinUIEx.WindowManager.Get(this).Height = 950;
+        WinUIEx.WindowManager.Get(this).IsResizable = false;
+        WinUIEx.WindowManager.Get(this).IsMaximizable = false;
+
+
 
         MainWindow_Loaded();
-    }
-
-    //C# code behind
-    private void NavigationViewInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
-    {
-        FrameNavigationOptions navOptions = new FrameNavigationOptions();
-
-        navOptions.TransitionInfoOverride = args.RecommendedNavigationTransitionInfo;
-        if (sender.PaneDisplayMode == NavigationViewPaneDisplayMode.Top)
-        {
-            navOptions.IsNavigationStackEnabled = false;
-        }
-
-        Type pageType = typeof(TestPage);
-        if (args.InvokedItem is NavigationViewItem item && item == NavigationViewItem_TestPage)
-        {
-            pageType = typeof(TestPage);
-        }
-
-        if (args.InvokedItem is NavigationViewItem item4 && item4 == NavigationViewItem_TestPage)
-        {
-            pageType = typeof(TestPage);
-        }
-
-        NavigationViewFrame_ContentFrame.NavigateToType(pageType, null, navOptions);
     }
 
     private void MainWindow_Loaded()
@@ -60,10 +41,41 @@ public sealed partial class MainWindow : Window
         if (NavigationViewFrame_ContentFrame.Content == null)
         {
             MainWindowNavigationView.SelectedItem = NavigationViewItem_TestPage;
-            FrameNavigationOptions navOptions = new FrameNavigationOptions();
-            navOptions.IsNavigationStackEnabled = false;
-            // 初始化页面
-            NavigationViewFrame_ContentFrame.NavigateToType(typeof(TestPage), null, navOptions);
+            NavigationViewFrame_ContentFrame.NavigateToType(typeof(TextGenerator), null, new FrameNavigationOptions());
+        }
+    }
+
+    private void NavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+    {
+        FrameNavigationOptions navOptions = new FrameNavigationOptions();
+        navOptions.TransitionInfoOverride = args.RecommendedNavigationTransitionInfo;
+
+        var invokedContainer = args.InvokedItemContainer as NavigationViewItem;
+        var tag = invokedContainer?.Tag?.ToString();
+
+        switch (tag)
+        {
+            case "NavigationViewItemTag_TestPage":
+                NavigationViewFrame_ContentFrame.NavigateToType(typeof(TestPage), null, navOptions);
+                MainWindowNavigationView.Header = "TestPage";
+                Debug.WriteLine("NavigationViewItem_TestPage");
+                break;
+
+            case "NavigationViewItemTag_TextGeneratorPage":
+                NavigationViewFrame_ContentFrame.NavigateToType(typeof(TextGenerator), null, navOptions);
+                MainWindowNavigationView.Header = "TextGenerator";
+                Debug.WriteLine("NavigationViewItem_TextGeneratorPage");
+                break;
+
+            case "NavigationViewItemTag_SettingsPage":
+                NavigationViewFrame_ContentFrame.NavigateToType(typeof(SettingsPage), null, navOptions);
+                MainWindowNavigationView.Header = "SettingsPage";
+                Debug.WriteLine("NavigationViewItem_SettingsPage");
+                break;
+
+            default:
+                Debug.WriteLine("Unknown navigation tag: " + tag);
+                break;
         }
     }
 }

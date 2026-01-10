@@ -10,26 +10,20 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using TinyKit.Languages;
+using TinyKit.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
 
 namespace TinyKit.Pages;
 
-public sealed partial class TestPage : Page
+public sealed partial class TextGenerator : Page
 {
-    public TestPage()
+    TextGeneratorViewModel viewModel;
+    public TextGenerator()
     {
         InitializeComponent();
+        viewModel = new();
     }
 
-    private void Button_ClickToChangeText(object sender, RoutedEventArgs e)
-    {
-        Button? button = sender as Button;
-        if(button is not null)
-            button.Content = "clicked!";
-
-        Language language = new(LanguageType.SimplifiedChinese);
-    }
 }

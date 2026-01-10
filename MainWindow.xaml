@@ -15,8 +15,8 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="48" />
-            <RowDefinition />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <TitleBar
@@ -24,13 +24,14 @@
             IsBackButtonVisible="False"
             IsPaneToggleButtonVisible="False"
             Subtitle="in developing">
-            <TitleBar.IconSource>
+            <!--<TitleBar.IconSource>
                 <ImageIconSource ImageSource="/bilibili_64x64.ico" />
-            </TitleBar.IconSource>
+            </TitleBar.IconSource>-->
             <TitleBar.Content>
                 <AutoSuggestBox
                     Width="360"
                     VerticalAlignment="Center"
+                    CornerRadius="16"
                     PlaceholderText="Search.."
                     QueryIcon="Find" />
             </TitleBar.Content>
@@ -38,23 +39,24 @@
                 <PersonPicture
                     Width="30"
                     Height="30"
-                    Initials="JD" />
+                    Initials="AT" />
             </TitleBar.RightHeader>
         </TitleBar>
 
         <NavigationView
             x:Name="MainWindowNavigationView"
             Grid.Row="1"
+            MinWidth="100"
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="True"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
-            ItemInvoked="NavigationViewInvoked"
+            ItemInvoked="NavigationViewItemInvoked"
             OpenPaneLength="300"
             PaneDisplayMode="Left">
 
             <NavigationView.PaneCustomContent>
-                <Border Margin="4,0,4,20" CornerRadius="5">
+                <Border Margin="4,55,4,45" CornerRadius="5">
                     <StackPanel
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
@@ -84,34 +86,27 @@
                     x:Name="NavigationViewItem_TestPage"
                     Margin="10,0,10,0"
                     Content="TestPage"
-                    Tag="TestPageItem">
+                    Tag="NavigationViewItemTag_TestPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEA86;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
                 <NavigationViewItem
+                    x:Name="NavigationViewItem_TextGeneratorPage"
                     Margin="10,0,10,0"
-                    Content="TestPage"
-                    Tag="TestPageItem">
+                    Content="TextGenerator"
+                    Tag="NavigationViewItemTag_TextGeneratorPage">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xEA86;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-
-                <NavigationViewItem
-                    Margin="10,0,10,0"
-                    Content="TestPage"
-                    Tag="TestPageItem">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xEA86;" />
+                        <FontIcon Glyph="&#xEF60;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
 
                 <NavigationViewItem
                     x:Name="NavigationViewItem_SettingsPage"
                     Margin="10,0,10,0"
-                    Content="SettingsPage">
+                    Content="SettingsPage"
+                    Tag="NavigationViewItemTag_SettingsPage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE713;" />
                     </NavigationViewItem.Icon>
