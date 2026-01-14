@@ -51,6 +51,7 @@
             IsPaneOpen="True"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
+            Loaded="MainWindowNavigationViewLoaded"
             ItemInvoked="NavigationViewItemInvoked"
             OpenPaneLength="300"
             PaneDisplayMode="Left">

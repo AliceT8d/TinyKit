@@ -30,19 +30,6 @@ public sealed partial class MainWindow : Window
         WinUIEx.WindowManager.Get(this).Height = 950;
         WinUIEx.WindowManager.Get(this).IsResizable = false;
         WinUIEx.WindowManager.Get(this).IsMaximizable = false;
-
-
-
-        MainWindow_Loaded();
-    }
-
-    private void MainWindow_Loaded()
-    {
-        if (NavigationViewFrame_ContentFrame.Content == null)
-        {
-            MainWindowNavigationView.SelectedItem = NavigationViewItem_TestPage;
-            NavigationViewFrame_ContentFrame.NavigateToType(typeof(TextGenerator), null, new FrameNavigationOptions());
-        }
     }
 
     private void NavigationViewItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -77,5 +64,12 @@ public sealed partial class MainWindow : Window
                 Debug.WriteLine("Unknown navigation tag: " + tag);
                 break;
         }
+    }
+
+    private void MainWindowNavigationViewLoaded(object sender, RoutedEventArgs e)
+    {
+        MainWindowNavigationView.SelectedItem = NavigationViewItem_TextGeneratorPage;
+        MainWindowNavigationView.Header = "TextGenerator";
+        NavigationViewFrame_ContentFrame.NavigateToType(typeof(TextGenerator), null, new FrameNavigationOptions());
     }
 }
