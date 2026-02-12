@@ -1,13 +1,10 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TinyKit.Entities;
 
-public partial class InfoBar_ : ObservableObject
+public partial class MyInfoBar : ObservableObject
 {
     [ObservableProperty]
     public partial Visibility InfoBarVisibility { get; set; } = Visibility.Collapsed;

@@ -51,6 +51,7 @@
 
                                     <Grid
                                         HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Bottom"
                                         ColumnSpacing="5"
                                         RowSpacing="5">
                                         <Grid.ColumnDefinitions>
@@ -60,18 +61,19 @@
                                         </Grid.ColumnDefinitions>
 
                                         <Grid.RowDefinitions>
-                                            <RowDefinition />
-                                            <RowDefinition />
-                                            <RowDefinition />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
 
                                         <StackPanel Grid.Column="0" Spacing="5">
                                             <ComboBox
                                                 HorizontalAlignment="Stretch"
                                                 Header="Date"
-                                                ItemsSource="{x:Bind viewModel.Date}"
-                                                SelectedIndex="{x:Bind viewModel.DateIndex, Mode=TwoWay}" />
-                                            <CheckBox IsChecked="{x:Bind viewModel.Ddd, Mode=TwoWay}">
+                                                ItemsSource="{x:Bind timeTextViewModel.Date}"
+                                                SelectedIndex="{x:Bind timeTextViewModel.DateIndex, Mode=TwoWay}" />
+                                            <CheckBox IsChecked="{x:Bind timeTextViewModel.Ddd, Mode=TwoWay}">
                                                 <CheckBox.Content>
                                                     <TextBlock Text="Include day of week" />
                                                 </CheckBox.Content>
@@ -82,12 +84,12 @@
                                             <ComboBox
                                                 HorizontalAlignment="Stretch"
                                                 Header="Date separator"
-                                                ItemsSource="{x:Bind viewModel.Separator}"
-                                                SelectedIndex="{x:Bind viewModel.SeparatorIndex, Mode=TwoWay}" />
+                                                ItemsSource="{x:Bind timeTextViewModel.Separator}"
+                                                SelectedIndex="{x:Bind timeTextViewModel.SeparatorIndex, Mode=TwoWay}" />
                                             <CheckBox
-                                                Checked="{x:Bind viewModel.HasTt}"
-                                                IsChecked="{x:Bind viewModel.Tt, Mode=TwoWay}"
-                                                Unchecked="{x:Bind viewModel.HasNoTt}">
+                                                Checked="{x:Bind timeTextViewModel.HasTt}"
+                                                IsChecked="{x:Bind timeTextViewModel.Tt, Mode=TwoWay}"
+                                                Unchecked="{x:Bind timeTextViewModel.HasNoTt}">
                                                 <CheckBox.Content>
                                                     <TextBlock Text="Use AM/PM" />
                                                 </CheckBox.Content>
@@ -98,10 +100,10 @@
                                             <ComboBox
                                                 HorizontalAlignment="Stretch"
                                                 Header="Time"
-                                                ItemsSource="{x:Bind viewModel.Time}"
-                                                SelectedIndex="{x:Bind viewModel.TimeIndex, Mode=TwoWay}"
-                                                SelectionChanged="{x:Bind viewModel.SelectTimeIndex}" />
-                                            <CheckBox IsChecked="{x:Bind viewModel.ShortDate, Mode=TwoWay}">
+                                                ItemsSource="{x:Bind timeTextViewModel.Time}"
+                                                SelectedIndex="{x:Bind timeTextViewModel.TimeIndex, Mode=TwoWay}"
+                                                SelectionChanged="{x:Bind timeTextViewModel.SelectTimeIndex}" />
+                                            <CheckBox IsChecked="{x:Bind timeTextViewModel.ShortDate, Mode=TwoWay}">
                                                 <CheckBox.Content>
                                                     <TextBlock Text="Short Date" />
                                                 </CheckBox.Content>
@@ -109,57 +111,52 @@
 
                                         </StackPanel>
 
-
                                         <ComboBox
                                             Grid.Row="1"
                                             Grid.Column="0"
                                             HorizontalAlignment="Stretch"
-                                            IsEnabled="{x:Bind viewModel.UseCurrTime, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
-                                            ItemsSource="{x:Bind viewModel.UtcDataSource}"
-                                            SelectedIndex="{x:Bind viewModel.UtcDataSourceIndex, Mode=TwoWay}" />
-
-
-
+                                            IsEnabled="{x:Bind timeTextViewModel.UseCurrTime, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+                                            ItemsSource="{x:Bind timeTextViewModel.UtcDataSource}"
+                                            SelectedIndex="{x:Bind timeTextViewModel.UtcDataSourceIndex, Mode=TwoWay}" />
 
                                         <TextBox
                                             Grid.Row="1"
                                             Grid.Column="1"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center"
-                                            IsEnabled="{x:Bind viewModel.UseCurrTime, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
+                                            IsEnabled="{x:Bind timeTextViewModel.UseCurrTime, Mode=TwoWay, Converter={StaticResource BoolNegationConverter}}"
                                             PlaceholderText="Enter the timestamp"
-                                            Text="{x:Bind viewModel.Timestamp, Mode=TwoWay}" />
+                                            Text="{x:Bind timeTextViewModel.Timestamp, Mode=TwoWay}" />
 
-
-
-                                        <CheckBox
+                                        <ComboBox
                                             Grid.Row="1"
                                             Grid.Column="2"
-                                            Checked="{x:Bind viewModel.SetCurrentLocalTime}"
+                                            HorizontalAlignment="Stretch"
+                                            ItemsSource="{x:Bind timeTextViewModel.Lang}"
+                                            SelectedIndex="{x:Bind timeTextViewModel.LangIndex, Mode=TwoWay}" />
+
+                                        <Border
+                                            Grid.Row="2"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="3"
+                                            Height="3"
+                                            Background="{ThemeResource AcrylicBackgroundFillColorBaseBrush}" />
+
+                                        <CheckBox
+                                            Grid.Row="3"
+                                            Grid.Column="2"
+                                            Checked="{x:Bind timeTextViewModel.SetCurrentLocalTime}"
                                             Content="Use the system's local time"
-                                            IsChecked="{x:Bind viewModel.UseCurrTime, Mode=TwoWay}" />
-
-
-
+                                            IsChecked="{x:Bind timeTextViewModel.UseCurrTime, Mode=TwoWay}" />
 
                                         <TextBox
-                                            Grid.Row="2"
+                                            Grid.Row="3"
                                             Grid.Column="0"
                                             Grid.ColumnSpan="2"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center"
                                             PlaceholderText="Enter text with %s as a placeholder for the formatted time"
-                                            Text="{x:Bind viewModel.FormattedStr, Mode=TwoWay}" />
-
-
-                                        <ComboBox
-                                            Grid.Row="2"
-                                            Grid.Column="2"
-                                            HorizontalAlignment="Stretch"
-                                            ItemsSource="{x:Bind viewModel.Lang}"
-                                            SelectedIndex="{x:Bind viewModel.LangIndex, Mode=TwoWay}" />
-
-
+                                            Text="{x:Bind timeTextViewModel.FormattedStr, Mode=TwoWay}" />
 
                                     </Grid>
                                 </StackPanel>
@@ -171,47 +168,40 @@
                                     Orientation="Vertical">
 
                                     <StackPanel Orientation="Horizontal" Spacing="10">
-                                        <Button Click="{x:Bind viewModel.GenerateCommittedStr}" Style="{StaticResource AccentButtonStyle}">
+                                        <Button Click="{x:Bind timeTextViewModel.GenerateCommittedStr}" Style="{StaticResource AccentButtonStyle}">
                                             Generate
                                         </Button>
-                                        <Button Click="{x:Bind viewModel.CopyCommittedStr}" Style="{StaticResource AccentButtonStyle}">
+                                        <Button Click="{x:Bind timeTextViewModel.CopyCommittedStr}" Style="{StaticResource AccentButtonStyle}">
                                             Copy
                                         </Button>
 
-                                        <!--<Button Click="{x:Bind viewModel.Test}" Style="{StaticResource AccentButtonStyle}">
-                                            test
-                                        </Button>-->
-                                        <Button>
-                                            <Button.Content>
-                                                <FontIcon Glyph="&#xE9CE;" />
-                                            </Button.Content>
-                                            <Button.Flyout>
-                                                <Flyout Placement="BottomEdgeAlignedRight">
-                                                    <StackPanel Spacing="5">
-                                                        <TextBlock
-                                                            MaxWidth="400"
-                                                            Style="{ThemeResource BaseTextBlockStyle}"
-                                                            Text="勾选ddd，日期将携带这天是周几信息；勾选tt，时间将携带上午/下午信息"
-                                                            TextWrapping="Wrap" />
-                                                    </StackPanel>
-                                                </Flyout>
-                                            </Button.Flyout>
-
-                                        </Button>
                                     </StackPanel>
                                 </StackPanel>
 
                             </Grid>
 
                             <InfoBar
-                                Title="{x:Bind viewModel.InfoBarInstance.Title, Mode=OneWay}"
-                                CloseButtonClick="{x:Bind viewModel.CloseInfoBarInstance}"
+                                Title="{x:Bind timeTextViewModel.InfoBarInstance.Title, Mode=OneWay}"
+                                CloseButtonClick="{x:Bind timeTextViewModel.CloseInfoBarInstance}"
                                 IsIconVisible="True"
-                                IsOpen="{x:Bind viewModel.InfoBarInstance.IsOpen, Mode=OneWay}"
-                                Message="{x:Bind viewModel.InfoBarInstance.Message, Mode=OneWay}"
-                                Severity="{x:Bind viewModel.InfoBarInstance.Severity, Mode=OneWay}"
-                                Visibility="{x:Bind viewModel.InfoBarInstance.InfoBarVisibility, Mode=OneWay}" />
+                                IsOpen="{x:Bind timeTextViewModel.InfoBarInstance.IsOpen, Mode=OneWay}"
+                                Message="{x:Bind timeTextViewModel.InfoBarInstance.Message, Mode=OneWay}"
+                                Severity="{x:Bind timeTextViewModel.InfoBarInstance.Severity, Mode=OneWay}"
+                                Visibility="{x:Bind timeTextViewModel.InfoBarInstance.InfoBarVisibility, Mode=OneWay}" />
                         </StackPanel>
+                    </Expander.Content>
+                </Expander>
+
+                <Expander Header="生成随机字符串">
+                    <Expander.Content>
+
+                        <StackPanel
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Spacing="10">
+                            <Button>测试</Button>
+                        </StackPanel>
+
                     </Expander.Content>
                 </Expander>
 

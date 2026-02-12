@@ -2,22 +2,17 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.VisualBasic;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using TinyKit.Entities;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace TinyKit.ViewModels;
 
-partial class TextGeneratorViewModel : ObservableObject
+partial class TextGeneratorViewModel_TimeText : ObservableObject
 {
     [ObservableProperty]
     public partial string CommittedStr { get; set; } = "";
@@ -63,7 +58,7 @@ partial class TextGeneratorViewModel : ObservableObject
 
 
     [ObservableProperty]
-    public partial InfoBar_ InfoBarInstance { get; set; } = new();
+    public partial MyInfoBar InfoBarInstance { get; set; } = new();
 
 
     public ObservableCollection<string> Date { get; } =
@@ -158,12 +153,12 @@ partial class TextGeneratorViewModel : ObservableObject
     [RelayCommand]
     public void GenerateCommittedStr()
     {
-        string dateFormat = (DateIndex == 0? "yyyy M d": "M d yyyy");
+        string dateFormat = (DateIndex == 0 ? "yyyy M d" : "M d yyyy");
         string separator = SeparatorIndex == 1 ? " " : Separator[SeparatorIndex];
         separator = $"'{separator}'";
         dateFormat = dateFormat.Replace(" ", separator);
         string timeFormat = Time[TimeIndex];
-        
+
         if (!ShortDate)
         {
             dateFormat = dateFormat.Replace("M", "MM");
@@ -173,8 +168,8 @@ partial class TextGeneratorViewModel : ObservableObject
             timeFormat = timeFormat.Replace("h", "hh");
         }
         if (Ddd)
-        { 
-            if(!ShortDate) dateFormat += " dddd";
+        {
+            if (!ShortDate) dateFormat += " dddd";
             else dateFormat += " ddd";
         }
         if (Tt) timeFormat += " tt";
@@ -231,7 +226,7 @@ partial class TextGeneratorViewModel : ObservableObject
         string formattedDate = target.ToString(dateFormat, CultureInfo.CreateSpecificCulture(Lang[LangIndex]));
         string formattedTime = target.ToString(timeFormat, CultureInfo.CreateSpecificCulture(Lang[LangIndex]));
 
-        
+
         if (!string.IsNullOrWhiteSpace(FormattedStr) && (FormattedStr.Contains("%s") || FormattedStr.Contains("%S")))
         {
             CommittedStr = FormattedStr.Replace("%S", "%s");
@@ -241,7 +236,7 @@ partial class TextGeneratorViewModel : ObservableObject
         {
             CommittedStr = $"{formattedDate} {formattedTime}";
         }
-            
+
 
         DisplayInfoBarInstance(true, $"Generated: {CommittedStr}");
     }
@@ -280,7 +275,7 @@ partial class TextGeneratorViewModel : ObservableObject
 
         bool isValid = true;
 
-        if (Timestamp.Length == 13  || Timestamp.Length == 12)
+        if (Timestamp.Length == 13 || Timestamp.Length == 12)
         {
             Timestamp = Timestamp[..^3];
         }
